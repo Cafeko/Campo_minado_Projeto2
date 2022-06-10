@@ -3,16 +3,18 @@ import java.util.Random;
 
 public class Field
 {
-    ArrayList<Location> locationlist = new ArrayList<Location>();
-    int width;
-    int height;
-    Random random = new Random();
+    private ArrayList<Location> locationlist = new ArrayList<Location>();
+    private int width;
+    private int height;
+    private Random random = new Random();
+    private boolean running;
 
     // construtor da classe
     public Field(int width, int height, float bombChance)
     {
         this.width = width;
         this.height = height;
+        this.running = true;
         createField(this.width, this.height, bombChance);
     }
 
@@ -33,7 +35,7 @@ public class Field
             }
             else if(l instanceof Bomb)
             {
-                System.out.println("Game Over");
+                revealBombs();
             }
         }
     }
@@ -138,6 +140,21 @@ public class Field
         }
     }
 
+    public void revealBombs()
+    {
+        for(int j = 1; j <= height; j += 1)
+        {
+            for(int i = 1; i <= width; i += 1)
+            {
+                Location l = getLocation(i, j);
+                if(l instanceof Bomb)
+                {
+                    l.setHiddenFalse();
+                }
+            }
+        }
+    }
+
     // printa o campo inteiro
     public void printField()
     {
@@ -156,6 +173,66 @@ public class Field
             }
             System.out.println(")");
         }
+    }
+
+    // Verifica se o jogador venceu ou não
+    public boolean checkGround()
+    {
+        boolean game = false;
+        for(int j = 1; j <= height; j += 1)
+        {
+            for(int i = 1; i <= width; i += 1)
+            {
+                Location l = getLocation(i, j);
+                if(l instanceof Ground)
+                {
+                    if(l.getHidden() == true)
+                    {
+                        game = true;
+                        return game;
+                    }
+                }
+            }
+        }
+        if(game == false)
+        {
+            System.out.println("Você Venceu");
+        }
+        return game;
+    }
+
+    // Verifica se o jogador perdeu ou não
+    public boolean checkBomb()
+    {
+        boolean game = true;
+        for(int j = 1; j <= height; j += 1)
+        {
+            for(int i = 1; i <= width; i += 1)
+            {
+                Location l = getLocation(i, j);
+                if(l instanceof Bomb)
+                {
+                    if(l.getHidden() == false)
+                    {
+                        game = false;
+                        System.out.println("Game Over");
+                        return game;
+                    }
+                }
+            }
+        }
+        return game;
+    }
+
+    //Verifica o status do jogo e retorna o mesmo
+    public boolean checkGameStatus()
+    {
+        running = checkGround();
+        if(running != false)
+        {
+            running = checkBomb();
+        }
+        return running;
     }
 
     // Recebe um Location e adiciona na lista de Locations

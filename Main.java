@@ -24,6 +24,8 @@ public class Main
             field.printField();
             field.printLocationInfo(x, y);
             System.out.println();
+
+            game = field.checkGameStatus();
         }
     }
 }
