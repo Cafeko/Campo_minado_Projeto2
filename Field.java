@@ -140,6 +140,7 @@ public class Field
         }
     }
 
+    //Revela todas as bombas
     public void revealBombs()
     {
         for(int j = 1; j <= height; j += 1)
