@@ -3,6 +3,8 @@ public abstract class Location
     protected int x;
     protected int y;
     protected boolean hidden = true;
+    protected boolean marked = false;
+
     private String representation;
 
     // construtor da classe
@@ -25,6 +27,16 @@ public abstract class Location
     public void setHiddenFalse()
     {
         hidden = false;
+    }
+
+    public void setMark(boolean v)
+    {
+        marked = v;
+    }
+
+    public boolean getMark()
+    {
+        return marked;
     }
 
     public int getX()

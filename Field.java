@@ -40,6 +40,24 @@ public class Field
         }
     }
 
+    //Marca/desmarca uma localização
+    public void markLocation(int x, int y)
+    {
+        Location l = getLocation(x, y);
+        if(l != null)
+        {
+            if(l.getMark() == false)
+            {
+                l.setMark(true);
+            }
+            else
+            {
+                l.setMark(false);
+            }
+
+        }
+    }
+
     /*
     Obtem e retorna um location de acordo com sua cordenada x e y
     se não existir retorna nulo

@@ -9,7 +9,11 @@ public class Bomb extends Location
     // Printa a representação no campo
     public String printRepresentation()
     {
-        if(!hidden)
+        if(marked == true && hidden == true)
+        {
+            return "P ";
+        }
+        else if(hidden == false)
         {
             return "B ";
         }

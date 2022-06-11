@@ -11,6 +11,8 @@ public class Main
         Field field = new Field(9,9, 20);
         field.printField();
         System.out.println();
+
+        boolean mark;
         while(game)
         {
             System.out.print("x = ");
@@ -19,8 +21,18 @@ public class Main
             System.out.print("y = ");
             y = input.nextInt();
 
+            System.out.print("Mark = ");
+            mark = input.nextBoolean();
+
             System.out.println();
-            field.selectLocation(x, y);
+            if(mark == false)
+            {
+                field.selectLocation(x, y);
+            }
+            else
+            {
+                field.markLocation(x, y);
+            }
             field.printField();
             field.printLocationInfo(x, y);
             System.out.println();
