@@ -212,6 +212,10 @@ public class Field
                 }
             }
         }
+        if(game == false)
+        {
+            System.out.println("Você Ganhou");
+        }
         return game;
     }
 
@@ -229,6 +233,7 @@ public class Field
                     if(l.getHidden() == false)
                     {
                         game = false;
+                        System.out.println("Gama Over");
                         return game;
                     }
                 }
@@ -240,17 +245,13 @@ public class Field
     //Verifica o status do jogo e printa o mesmo
     public void gameStatus()
     {
-        running = checkGround();
-        if(running == false)
+        boolean r;
+        r = checkGround();
+        if(running != false)
         {
-            System.out.println("Ganhou");
+            r = checkBomb();
         }
-        running = checkBomb();
-        if (running == false)
-        {
-            System.out.println("Game over");
-        }
-
+        running = r;
     }
 
     // Recebe um Location e adiciona na lista de Locations
@@ -295,5 +296,10 @@ public class Field
     public ArrayList<Cell> getCellsList()
     {
         return cellsList;
+    }
+
+    public boolean getRunning()
+    {
+        return running;
     }
 }

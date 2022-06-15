@@ -15,6 +15,12 @@ public class Cell extends JButton {
         addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e)
+            {
                 if(e.getButton() == MouseEvent.BUTTON1)
                 {
                     clickButtonLeft();
@@ -23,12 +29,6 @@ public class Cell extends JButton {
                 {
                     clickButtonRight();
                 }
-
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
             }
 
             @Override
@@ -57,15 +57,24 @@ public class Cell extends JButton {
     // Ações que são executadas apos ser clicado
     public void clickButtonLeft()
     {
-        field.selectCell(this);
-        field.printField();
-        setText(type.printRepresentation());
+        if(field.getRunning() == true)
+        {
+            field.selectCell(this);
+            field.printField();
+            setText(type.printRepresentation());
+            field.gameStatus();
+        }
+
     }
 
     public void clickButtonRight()
     {
-        field.markLocationCell(this);
-        field.printField();
-        setText(type.printRepresentation());
+        if(field.getRunning() == true)
+        {
+            field.markLocationCell(this);
+            field.printField();
+            setText(type.printRepresentation());
+            field.gameStatus();
+        }
     }
 }
