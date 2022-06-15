@@ -3,7 +3,7 @@ import java.util.Random;
 
 public class Field
 {
-    private ArrayList<Location> locationlist = new ArrayList<Location>();
+    private ArrayList<Cell> cellsList = new ArrayList<Cell>();
     private int width;
     private int height;
     private Random random = new Random();
@@ -21,24 +21,25 @@ public class Field
     /*
     Seleciona/revela a localização
     se for Ground vai ver o numero de bombas ao redor
-    se for Bomb vai dar game over
+    se for Bomb vai revelar as bombas
      */
-    public void selectLocation(int x, int y)
+    public void selectCell(Cell c)
     {
-        Location l = getLocation(x, y);
-        if(l != null)
+        if(c != null)
         {
+            Location l = c.getType();
             l.setHiddenFalse();
             if(l instanceof Ground)
             {
-                lookAround(((Ground) l));
+                lookAroundCell(((Ground) l));
             }
             else if(l instanceof Bomb)
             {
-                revealBombs();
+                revealBombsCell();
             }
         }
     }
+
 
     //Marca/desmarca uma localização
     public void markLocation(int x, int y)
@@ -64,7 +65,8 @@ public class Field
      */
     public Location getLocation(int x, int y)
     {
-        for (Location l : locationlist) {
+        for (Cell c : cellsList) {
+            Location l = c.getType();
             if (l.getX() == x && l.getY() == y)
             {
                 return l;
@@ -73,11 +75,23 @@ public class Field
         return null;
     }
 
+    public Cell getCell(int x, int y)
+    {
+        for (Cell c : cellsList) {
+            Location l = c.getType();
+            if (l.getX() == x && l.getY() == y)
+            {
+                return c;
+            }
+        }
+        return null;
+    }
+
     /*
     Recebe um Location, conta o número de bombas ao redor dele e envia o valor para ele
-    se o valor for zero ele vai selecionar os Locations ao redor
+    se o valor for zero ele vai selecionar as Cells ao redor
      */
-    public void lookAround(Location g)
+    public void lookAroundCell(Location g)
     {
         if(g instanceof Ground)
         {
@@ -100,48 +114,30 @@ public class Field
             ((Ground) g).setBombNumber(bombsAround);
             if(bombsAround == 0)
             {
-                selectAround((Ground) g);
+                selectAroundCell(g.getX(), g.getY());
             }
         }
     }
 
     /*
-    Seleciona os Locations ao redor
+    Seleciona as Cells ao redor
      */
-    public void selectAround(Ground g)
+    public void selectAroundCell(int x, int y)
     {
-        int y = g.getY();
-        int x = g.getX();
         for(int j = y - 1; j < y + 2; j += 1)
         {
             for(int i = x - 1; i < x + 2; i += 1)
             {
                 if(getLocation(i, j) != null)
                 {
-                    Location l = getLocation(i, j);
+                    Cell c = getCell(i, j);
+                    Location l = c.getType();
                     if(l instanceof Ground && l.getHidden())
                     {
-                        selectLocation(l.getX(), l.getY());
+                        c.clickButton();
                     }
                 }
             }
-        }
-    }
-
-    /*
-    Pega um Location
-    se não for nulo, retorna suas informaçõe
-    caso contrario, printa "fora dos limites"
-     */
-    public void printLocationInfo(int x, int y)
-    {
-        if (getLocation(x, y) != null)
-        {
-            getLocation(x, y).printInfo();
-        }
-        else
-        {
-            System.out.println("fora dos limites");
         }
     }
 
@@ -159,16 +155,18 @@ public class Field
     }
 
     //Revela todas as bombas
-    public void revealBombs()
+    public void revealBombsCell()
     {
         for(int j = 1; j <= height; j += 1)
         {
             for(int i = 1; i <= width; i += 1)
             {
-                Location l = getLocation(i, j);
+                Cell c = getCell(i, j);
+                Location l = c.getType();
                 if(l instanceof Bomb)
                 {
                     l.setHiddenFalse();
+                    c.setText(l.printRepresentation());
                 }
             }
         }
@@ -192,6 +190,7 @@ public class Field
             }
             System.out.println(")");
         }
+        System.out.println();
     }
 
     // Verifica se o jogador venceu ou não
@@ -213,10 +212,6 @@ public class Field
                 }
             }
         }
-        if(game == false)
-        {
-            System.out.println("Você Venceu");
-        }
         return game;
     }
 
@@ -234,7 +229,6 @@ public class Field
                     if(l.getHidden() == false)
                     {
                         game = false;
-                        System.out.println("Game Over");
                         return game;
                     }
                 }
@@ -243,21 +237,26 @@ public class Field
         return game;
     }
 
-    //Verifica o status do jogo e retorna o mesmo
-    public boolean checkGameStatus()
+    //Verifica o status do jogo e printa o mesmo
+    public void gameStatus()
     {
         running = checkGround();
-        if(running != false)
+        if(running == false)
         {
-            running = checkBomb();
+            System.out.println("Ganhou");
         }
-        return running;
+        running = checkBomb();
+        if (running == false)
+        {
+            System.out.println("Game over");
+        }
+
     }
 
     // Recebe um Location e adiciona na lista de Locations
-    public void addLocation(Location l)
+    public void addCell(Cell c)
     {
-        locationlist.add(l);
+        cellsList.add(c);
     }
 
     // Cria o campo minado
@@ -283,13 +282,18 @@ public class Field
                 double isBomb = random.nextDouble();
                 if(isBomb <= chance)
                 {
-                    addLocation(new Bomb(i, j, "bomb"));
+                    addCell(new Cell(new Bomb(i, j, "bomb"), this));
                 }
                 else
                 {
-                    addLocation(new Ground(i, j, "not bomb"));
+                    addCell(new Cell(new Ground(i, j, "not bomb"), this));
                 }
             }
         }
+    }
+
+    public ArrayList<Cell> getCellsList()
+    {
+        return cellsList;
     }
 }
