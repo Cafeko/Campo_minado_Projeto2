@@ -5,7 +5,7 @@ import java.awt.event.MouseListener;
 public class Cell extends JButton {
 
     private Location type;
-    private Field field; 
+    private Field field;
 
     public Cell(Location type, Field field)
     {
@@ -15,7 +15,15 @@ public class Cell extends JButton {
         addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                clickButton();
+                if(e.getButton() == MouseEvent.BUTTON1)
+                {
+                    clickButtonLeft();
+                }
+                else if(e.getButton() == MouseEvent.BUTTON3)
+                {
+                    clickButtonRight();
+                }
+
             }
 
             @Override
@@ -47,9 +55,16 @@ public class Cell extends JButton {
     }
 
     // Ações que são executadas apos ser clicado
-    public void clickButton()
+    public void clickButtonLeft()
     {
         field.selectCell(this);
+        field.printField();
+        setText(type.printRepresentation());
+    }
+
+    public void clickButtonRight()
+    {
+        field.markLocationCell(this);
         field.printField();
         setText(type.printRepresentation());
     }

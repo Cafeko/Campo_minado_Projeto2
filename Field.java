@@ -42,9 +42,9 @@ public class Field
 
 
     //Marca/desmarca uma localização
-    public void markLocation(int x, int y)
+    public void markLocationCell(Cell c)
     {
-        Location l = getLocation(x, y);
+        Location l = c.getType();
         if(l != null)
         {
             if(l.getMark() == false)
@@ -134,7 +134,7 @@ public class Field
                     Location l = c.getType();
                     if(l instanceof Ground && l.getHidden())
                     {
-                        c.clickButton();
+                        c.clickButtonLeft();
                     }
                 }
             }
