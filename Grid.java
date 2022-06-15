@@ -1,7 +1,8 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
-import java.util.Random;
 
 public class Grid extends JPanel {
 
@@ -25,5 +26,11 @@ public class Grid extends JPanel {
         {
             add(c);
         }
+    }
+
+    public void RestartGrid()
+    {
+        cellGrid = field.getCellsList();
+        addCells();
     }
 }

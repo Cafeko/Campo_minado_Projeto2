@@ -6,6 +6,7 @@ public class Field
     private ArrayList<Cell> cellsList = new ArrayList<Cell>();
     private int width;
     private int height;
+    private float bombChance;
     private Random random = new Random();
     private boolean running;
 
@@ -14,6 +15,7 @@ public class Field
     {
         this.width = width;
         this.height = height;
+        this.bombChance = bombChance;
         this.running = true;
         createField(this.width, this.height, bombChance);
     }
@@ -291,6 +293,15 @@ public class Field
                 }
             }
         }
+    }
+
+    //Apaga e recria o campo
+    public void restartField()
+    {
+        cellsList.clear();
+        createField(this.width, this.height, bombChance);
+        running = true;
+        printField();
     }
 
     public ArrayList<Cell> getCellsList()
