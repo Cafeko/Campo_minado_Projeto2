@@ -14,19 +14,28 @@ public class Ground extends Location
     private ImageIcon sete = new ImageIcon("src/Imagens/7.png");
     private ImageIcon oito = new ImageIcon("src/Imagens/8.png");
 
-    // construtor da classe
+    /**
+     * construtor de Ground.
+     * @param x cordenada no eixo x.
+     * @param y codenada no eixo y.
+     */
     public Ground(int x, int y)
     {
         super(x, y);
     }
 
-    // Recebe um numero e adiciona a variavel bombsAround
+    /**
+     * Da a variavel bombsAround o valor do parametro number.
+     * @param number numero de bombas ao redor.
+     */
     public void setBombNumber(int number)
     {
         bombsAround = number;
     }
 
-    // Printa a representação no campo
+    /**
+     * @return A imagem que representa o estado atual de Ground.
+     */
     public ImageIcon imageRepresentation()
     {
         if(marked == true && hidden == true)
@@ -47,6 +56,10 @@ public class Ground extends Location
         }
     }
 
+    /**
+     * @return A imagem que representa o numero de bombas ao redor.
+     * @return null caso o valor seja diferente dos especificados.
+     */
     public ImageIcon imageNumber()
     {
         if(bombsAround == 1)

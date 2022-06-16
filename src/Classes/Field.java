@@ -12,7 +12,12 @@ public class Field
     private Random random = new Random();
     private boolean running;
 
-    // construtor da classe
+    /**
+     * Construtor de Field.
+     * @param width largura do Field.
+     * @param height altura do Field.
+     * @param bombChance porcentagem de chance de criar uma bomba.
+     */
     public Field(int width, int height, float bombChance)
     {
         this.width = width;
@@ -22,10 +27,11 @@ public class Field
         createField(this.width, this.height, bombChance);
     }
 
-    /*
-    Seleciona/revela a localização
-    se for Classes.Ground vai ver o numero de bombas ao redor
-    se for Classes.Bomb vai revelar as bombas
+    /**
+     * Seleciona uma Cell e verifica o Location dela:
+     * se o Location for intancia de Bomb, revela todas as bombas.
+     * se o Location for instancia de Ground, verifica as Cells ao redor.
+     * @param c Cell selecionada.
      */
     public void selectCell(Cell c)
     {
@@ -45,7 +51,10 @@ public class Field
     }
 
 
-    //Marca/desmarca uma localização
+    /**
+     * Marca e desmarca o Location de uma Cell.
+     * @param c Cell cujo Location sera marcado/desmarcado.
+     */
     public void markLocationCell(Cell c)
     {
         Location l = c.getType();
@@ -63,9 +72,12 @@ public class Field
         }
     }
 
-    /*
-    Obtem e retorna um location de acordo com sua cordenada x e y
-    se não existir retorna nulo
+    /**
+     * Retorna um Location de acordo com suas cordenadas x e y
+     * @param x cordenada no eixo x.
+     * @param y cordenada no eixo y.
+     * @return o Location que tem as cordenadas x e y.
+     * @return null se não houver um Location com as cordenadas especificadas.
      */
     public Location getLocation(int x, int y)
     {
@@ -79,6 +91,13 @@ public class Field
         return null;
     }
 
+    /**
+     * Retorna um Cell de acordo com as cordenadas x e y de seu Location.
+     * @param x cordenada no eixo x.
+     * @param y cordenada no eixo y.
+     * @return a Cell que o Location tem as cordenadas x e y.
+     * @return null se não houver uma Cell cujo Location tem as cordenadas especificadas.
+     */
     public Cell getCell(int x, int y)
     {
         for (Cell c : cellsList) {
@@ -91,9 +110,11 @@ public class Field
         return null;
     }
 
-    /*
-    Recebe um Classes.Location, conta o número de bombas ao redor dele e envia o valor para ele
-    se o valor for zero ele vai selecionar as Cells ao redor
+    /**
+     * Verifica os arredores de uma Cell, conta o numero de bombas ao redor
+     * e manda o valor para o Ground da Cell.
+     * Se não tiver bombas ao redor ira selecionar as Cells ao redor.
+     * @param c Cell que os arredores serão verificados.
      */
     public void lookAroundCell(Cell c)
     {
@@ -124,8 +145,10 @@ public class Field
         }
     }
 
-    /*
-    Seleciona as Cells ao redor
+    /**
+     * Seleciona as Cells ao redor de uma cordenada.
+     * @param x cordenada no eixo x.
+     * @param y cordenada no eixo y.
      */
     public void selectAroundCell(int x, int y)
     {
@@ -146,7 +169,9 @@ public class Field
         }
     }
 
-    //Revela todas as bombas
+    /**
+     * Revela todas as bombas do Field.
+     */
     public void revealBombsCell()
     {
         for(int j = 1; j <= height; j += 1)
@@ -163,7 +188,9 @@ public class Field
         }
     }
 
-    // printa o campo inteiro
+    /**
+     * Coloca o icone de todas as Cells do Field de acordo com seu  estado atual.
+     */
     public void fieldImage()
     {
         for(Cell c: cellsList)
@@ -172,7 +199,11 @@ public class Field
         }
     }
 
-    // Verifica se o jogador venceu ou não
+    /**
+     * Verifica se Todos os Grounds foram revelados, se sim, finaliza o jogo.
+     * @return True caso o jogo ainda esteja rolando.
+     * @return false caso o jogo tenha chegado ao seu fim.
+     */
     public boolean checkGround()
     {
         boolean game = false;
@@ -198,7 +229,11 @@ public class Field
         return game;
     }
 
-    // Verifica se o jogador perdeu ou não
+    /**
+     * Verifica se uma Bomb foi revelada, se sim, finaliza o jogo.
+     * @return True caso o jogo ainda esteja rolando.
+     * @return false caso o jogo tenha chegado ao seu fim.
+     */
     public boolean checkBomb()
     {
         boolean game = true;
@@ -221,7 +256,9 @@ public class Field
         return game;
     }
 
-    //Verifica o status do jogo e printa o mesmo
+    /**
+     * Verifica o estado do jogo e da esse valor para running.
+     */
     public void gameStatus()
     {
         boolean r;
@@ -233,13 +270,21 @@ public class Field
         running = r;
     }
 
-    // Recebe um Classes.Location e adiciona na lista de Locations
+    /**
+     * Adiciona uma Cell a cellsList.
+     * @param c Cell que sera adicionada a lista.
+     */
     public void addCell(Cell c)
     {
         cellsList.add(c);
     }
 
-    // Cria o campo minado
+    /**
+     * Cria todas as Cells, e seus respectivos Locations, e as adiciona a lista de Cells do Field .
+     * @param width largura do Field.
+     * @param height altura do Field.
+     * @param bombChance porcentagem de chance de criar uma bomba.
+     */
     public void createField(int width, int height,float bombChance)
     {
         double chance;
@@ -272,7 +317,9 @@ public class Field
         }
     }
 
-    //Apaga e recria o campo
+    /**
+     * Apaga e as Cells do Field, cria novas do zero e da a running o valor de true.
+     */
     public void restartField()
     {
         cellsList.clear();
@@ -280,11 +327,17 @@ public class Field
         running = true;
     }
 
+    /**
+     * @return a lista de Cells.
+     */
     public ArrayList<Cell> getCellsList()
     {
         return cellsList;
     }
 
+    /**
+     * @return o valor de running.
+     */
     public boolean getRunning()
     {
         return running;

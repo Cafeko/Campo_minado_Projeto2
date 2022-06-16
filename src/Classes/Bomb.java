@@ -6,13 +6,19 @@ public class Bomb extends Location
 {
     private ImageIcon bomba = new ImageIcon("src/Imagens/bomb.png");
 
-    // construtor da classe
+    /**
+     * construtor de Bomb.
+     * @param x cordenada no eixo x.
+     * @param y codenada no eixo y.
+     */
     public Bomb(int x, int y)
     {
         super(x, y);
     }
 
-    // Printa a representação no campo
+    /**
+     * @return A imagem que representa o estado atual de Bomb.
+     */
     public ImageIcon imageRepresentation()
     {
         if(marked == true && hidden == true)

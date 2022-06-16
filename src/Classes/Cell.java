@@ -11,6 +11,11 @@ public class Cell extends JButton {
     private Field field;
     private Color mineColor = new Color(52, 46,35);
 
+    /**
+     * Construtor de Cell.
+     * @param type o Location da Cell.
+     * @param field O Fieldda Cell.
+     */
     public Cell(Location type, Field field)
     {
         this.type = type;
@@ -58,12 +63,19 @@ public class Cell extends JButton {
 
     }
 
+    /**
+     * @return o Location da Cell armazenado em type.
+     */
     public Location getType()
     {
         return type;
     }
 
-    // Ações que são executadas apos ser clicado
+    /**
+     * Se o running de field for true: seleciona está Cell, verifica se o jogo deve continuar rodando ou não
+     * e atualiza as imagens de todas as Cells de Field.
+     * se for false: não acontece nada.
+     */
     public void clickButtonLeft()
     {
         if(field.getRunning() == true)
@@ -75,6 +87,11 @@ public class Cell extends JButton {
 
     }
 
+    /**
+     * Se o running de field for true: Marca está Cell, verifica se o jogo deve continuar rodando ou não
+     * e atualiza as imagens de todas as Cells de Field.
+     * se for false: não acontece nada.
+     */
     public void clickButtonRight()
     {
         if(field.getRunning() == true)

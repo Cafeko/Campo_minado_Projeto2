@@ -11,6 +11,14 @@ public class Window {
     private static String title;
     private ImageIcon bomba = new ImageIcon("src/Imagens/bomb.png");
 
+    /**
+     * Constroi a janela do jogo.
+     * @param largura largura da janela.
+     * @param altura altura da janela.
+     * @param tamGrid largura/altura do grid.
+     * @param title nome da janela.
+     * @param field Field que conten as Cells do jogo.
+     */
     public Window(int largura, int altura, int tamGrid, String title, Field field){
 
         Window.title = title;
