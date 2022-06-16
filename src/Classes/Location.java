@@ -8,7 +8,7 @@ public abstract class Location
     protected int y;
     protected boolean hidden = true;
     protected boolean marked = false;
-    protected ImageIcon campo = new ImageIcon("src/Imagens/grama.png");
+    protected ImageIcon campo = new ImageIcon("src/Imagens/field_def.png");
     protected ImageIcon bandeira = new ImageIcon("src/Imagens/flag.png");
 
 
